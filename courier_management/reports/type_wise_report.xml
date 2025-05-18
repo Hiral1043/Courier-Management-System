@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_complain_type_wise_pivot" model="ir.ui.view">
+        <field name="name">view.complain.type.wise.pivot</field>
+        <field name="model">type.wise.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Customer Complaints">
+                <field name="complaint_category" type="col"/>
+                <field name="status" type="row"/>
+            </pivot>    
+        </field>
+    </record>
+    <record id="view_complain_type_wise_graph" model="ir.ui.view">
+        <field name="name">view.complain.type.wise.graph</field>
+        <field name="model">type.wise.report</field>
+        <field name="arch" type="xml">
+            <graph string="Customer Complaints" type="bar">
+                <field name="complaint_category" type="row"/> <!-- X-axis -->
+                <field name="status" type="row"/>
+                <!-- <field name="booking_id" type="measure" /> -->
+            </graph>
+        </field>
+    </record>
+
+
+    <record id="action_customer_complaint_type_wise_report" model="ir.actions.act_window">
+        <field name="name">Type-wise analysis</field>
+        <field name="res_model">type.wise.report</field>
+        <field name="target">current</field>
+        <field name='view_ids'
+            eval="[(5,0,0),                         
+                (0,0,{'view_mode':'pivot','view_id': ref('view_complain_type_wise_pivot')}),
+                (0,0,{'view_mode':'graph','view_id': ref('view_complain_type_wise_graph')})]"/>
+    </record>
+</odoo>

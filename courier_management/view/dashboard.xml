@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+      <!-- Kanban View -->
+      <record id="view_customer_complaint_kanban_dashboard" model="ir.ui.view">
+        <field name="name">customer.complaint.kanban.dashboard</field>
+        <field name="model">customer.complaint</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="status" class="o_kanban_dashboard" >
+
+                <field name="status"/>
+                <field name="priority"/>
+                <field name="complaint_category" />
+                <field name="assigned_to" />
+                <field name="ticket_number"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div style="padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0px 2px 8px rgba(0,0,0,0.1); min-height:150px;">
+                            
+                            <div style="font-weight: bold; font-size: 18px; margin-bottom: 10px;">
+                                <t t-esc="record.ticket_number.raw_value"/>
+                            </div>
+
+                            <div style="font-size: 14px; margin-bottom: 10px;">
+                                <strong>Status:</strong> <t t-esc="record.status.raw_value"/>
+                            </div>
+                            <div style="font-size: 14px; margin-bottom: 10px;">
+                                <strong>Complain Category:</strong> <t t-esc="record.complaint_category.raw_value"/>
+                            </div>
+                            <div style="font-size: 14px; margin-bottom: 10px;">
+                                <strong>Agent Assigned:</strong> <t t-esc="record.assigned_to.raw_value"/>
+                            </div>
+
+                            <div style="background: #eee; border-radius: 5px; height: 12px; margin-top: 10px;">
+                                <div t-att-style="
+                                    'height:12px; 
+                                    border-radius:5px; 
+                                    width:100%; 
+                                    background-color:' + 
+                                    (
+                                        record.status.raw_value == 'open' ? 'red' :
+                                        record.status.raw_value == 'in_progress' ? 'orange' :
+                                        record.status.raw_value == 'resolved' ? 'green' :
+                                        record.status.raw_value == 'closed' ? 'blue' : 
+                                        'gray'
+                                    )
+                                ">
+                                </div>
+                            </div>
+
+                        </div>
+                    </t>
+                </templates>
+
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_customer_complaint_dashboard" model="ir.actions.act_window">
+        <field name="name">Customer Complaint Dashboard</field>
+        <field name="res_model">customer.complaint</field>
+        <!-- <field name="view_mode">kanban</field> -->
+        <!-- <field name="view_id" ref="view_customer_complaint_kanban_dashboard"/> -->
+        <field name='view_ids' 
+                eval="[(5,0,0),
+                        (0,0,{'view_mode':'kanban','view_id': ref('view_customer_complaint_kanban_dashboard')}),
+                        (0,0,{'view_mode':'list','view_id': ref('view_customer_complaint_list')})]"/>
+    </record>
+</odoo>

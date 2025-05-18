@@ -1,0 +1,33 @@
+{
+    'name' :"Courier_management",
+    'version' : "18.0.1.0",
+    'sequence' : 1,
+    "summary" : "This is courier management module",
+    'depends': ['base', 'product', 'delivery','account','mail','hr'],
+    "website" : 'https://www.courier_management.com',
+    "data" :[
+        'security/security.xml',
+        'security/ir.model.access.csv',
+        'demo/demo_data.xml',
+        'data/data.xml',
+        'view/courier_booking_view.xml',
+        'view/customer_complaint_view.xml',
+        'view/courier_tracking_view.xml',
+        'view/delivery_agent_view.xml',
+        'view/shipping_route_view.xml',
+        'view/shipping_mode_view.xml',
+        # "view/dashboard.xml",
+        "reports/agent_wise_report.xml",
+        "reports/complain_status_report.xml",
+        "reports/mode_wise_delivery_report.xml",
+        "reports/type_wise_report.xml",
+        "reports/route_performance_report_views.xml",
+        'view/menu.xml',
+        "report/courier_receipt_templates.xml",
+        "report/courier_receipt.xml",
+    ],
+    'license': 'LGPL-3',
+    "installable" : True,
+    "application" : True
+
+}

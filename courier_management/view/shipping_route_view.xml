@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_shipping_route_list" model="ir.ui.view">
+            <field name="name">shipping.route.list</field>
+            <field name="model">shipping.route</field>
+            <field name="arch" type="xml">
+                <list string="Shipping Routes">
+                    <field name="source_city"/>
+                    <field name="destination_city"/>
+                    <field name="distance_km"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_shipping_route_form" model="ir.ui.view">
+            <field name="name">shipping.route.form</field>
+            <field name="model">shipping.route</field>
+            <field name="arch" type="xml">
+                <form string="Shipping Route">
+                    <sheet>
+                        <group>
+                            <field name="name" invisible="1"/>
+                            <field name="source_city"/>
+                            <field name="destination_city"/>
+                            <field name="distance_km"/>
+                        </group>
+                        <notebook>
+                            <page string="Route Lines">
+                                <field name="route_line_ids">
+                                    <list editable="bottom">
+                                        <!-- <field name="route_id"/> -->
+                                        <field name="mode_id"/>
+                                        <field name="cost_per_kg" />
+                                        <field name="estimated_days" />
+                                        <field name="is_active" />
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_shipping_route" model="ir.actions.act_window">
+            <field name="name">Shipping Routes</field>
+            <field name="res_model">shipping.route</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+</odoo>

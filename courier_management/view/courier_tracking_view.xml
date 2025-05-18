@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_courier_tracking_list" model="ir.ui.view">
+        <field name="name">courier.tracking.list</field>
+        <field name="model">courier.tracking</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="tracking_id" />
+                <field name="booking_id"/>
+                <field name="agent_id" />
+                <field name="timestamp"/>
+                <field name="notes"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_courier_tracking_form" model="ir.ui.view">
+        <field name="name">courier.tracking.form</field>
+        <field name="model">courier.tracking</field>
+        <field name="arch" type="xml">
+            <form string="Courier Tracking">
+                <header>
+                    <!-- <field name="status" widget="statusbar" /> -->
+                    <button type="object" name="action_pick_up" string="Pick Up" class="btn-primary" invisible="status in ['pick_up','in_transit','out_for_delivery','delivered']" groups="courier_management.courier_group_admin,courier_management.courier_group_employee,courier_management.courier_group_delivery_agent"/>
+                    <button type="object" name="action_in_transit" string="In Transit" class="btn-primary" invisible="status not in ['pick_up']"  groups="courier_management.courier_group_admin,courier_management.courier_group_employee,courier_management.courier_group_delivery_agent"/>
+                    <button type="object" name="action_out_for_delivery" string="Out for Delivery" class="btn-primary" invisible="status not in ['in_transit']"  groups="courier_management.courier_group_admin,courier_management.courier_group_employee,courier_management.courier_group_delivery_agent"/>
+                    <button type="object" name="action_delivered" string="Delivered" class="btn-primary" invisible="status not in ['out_for_delivery']" groups="courier_management.courier_group_admin,courier_management.courier_group_employee,courier_management.courier_group_delivery_agent"/>
+                    <button type="action" name="%(action_customer_complaint)d" string="Complain" class="btn-primary" groups="courier_management.courier_group_customer"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" invisible="state != 'pick_up'" title="Pick-up" bg_color="text-bg-info"/>
+                    <widget name="web_ribbon" invisible="state != 'in_transit'" title="In_Transit" bg_color="text-bg-info"/>
+                    <widget name="web_ribbon" invisible="state != 'out_for_delivery'" title="Out for delivery" bg_color="text-bg-info"/>
+                    <widget name="web_ribbon" invisible="state != 'delivered'" title="Delivered" bg_color="text-bg-success"/>
+                    <widget name="web_ribbon" invisible="state != 'returned'" title="Returned" bg_color="text-bg-danger"/>
+
+
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" string="Invoice"
+                            icon="fa-money"
+                            name="action_complain_customer">
+                            <div class="o_stat_info">
+                            <field name="count_complain" class="o_stat_value" widget="statinfo"/>
+                                
+                        </div>
+                        </button>  
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="tracking_id" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+
+                        <group>
+                            <field name="booking_id"/>
+                            <field name="agent_id" />
+                            <field name="timestamp"/>
+                            <field name="notes"/>
+                        </group>                        
+                    </group>
+                    <group>
+                            <group name='sender_details' string="Sender's Details">
+                                <field name="sender_id" readonly="state != 'draft'"/>
+                                <span class="o_form_label o_td_label o_address_type" name="address_name">
+                                    <span>Pickup Address</span>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="street" placeholder="Street..." class="o_address_street" readonly="state != 'draft'"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street" readonly="state != 'draft'"/>
+                                    <field name="city" placeholder="City" class="o_address_city" readonly="state != 'draft'"/>
+                                    <field name="state_id" class="o_address_state" placeholder="State" readonly="state != 'draft'"/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip" readonly="state != 'draft'"/>
+                                    <div name="partner_address_country" class="d-flex justify-content-between">
+                                        <field name="country_id" placeholder="Country" class="o_address_country" readonly="state != 'draft'" />
+                                    </div>
+                                </div>
+                                <field name="sender_phone" readonly="state != 'draft'"/>
+                                <!-- <field name="pickup_time" readonly="True" invisible="state in 'draft,confirmed'"/> -->
+                            </group>
+                            <group name='receriver' string="Receriver's Details">
+                                <field name="receiver_id"/>
+                                <span class="o_form_label o_td_label o_address_type" name="address_name">
+                                    <span>Delivery Address</span>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="receiver_street" placeholder="Street..." class="o_address_street" readonly="state != 'draft'"/>
+                                    <field name="receiver_street2" placeholder="Street 2..." class="o_address_street" readonly="state != 'draft'"/>
+                                    <field name="receiver_city" placeholder="City" class="o_address_city" readonly="state != 'draft'"/>
+                                    <field name="receiver_state_id" class="o_address_state" placeholder="State" readonly="state != 'draft'"/>
+                                    <field name="receiver_zip" placeholder="ZIP" class="o_address_zip" readonly="state != 'draft'"/>
+                                    <div name="partner_address_country" class="d-flex justify-content-between">
+                                        <field name="receiver_country_id" placeholder="Country" class="o_address_country"  readonly="state != 'draft'"/>
+                                    </div>
+                                </div>
+                                <field name="receiver_phone" readonly="state != 'draft'"/>
+    
+                            </group>
+                        </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_courier_tracking" model="ir.actions.act_window">
+        <field name="name">Courier Tracking</field>
+        <field name="res_model">courier.tracking</field>
+        <field name="view_mode">list,form</field>
+        <!-- <field name="view_id" ref="view_courier_tracking_list"/> -->
+    </record>
+
+
+    <record id="delivery_details_view_wizard_form" model="ir.ui.view">
+        <field name="name">delivery.details.view.wizard.form</field>
+        <field name="model">courier.delivered</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <group >
+                            <field name="name" /> 
+                            <field name="delivery_time" />
+                            <field name="delivery_proof" widget="signature"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_delivered_details" string="Complete" type="object" class="oe_highlight"/>
+                        <button name="action_return" string="Return" type="object" class="oe_highlight"/>
+
+                        
+                    </footer>
+                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="delivery_details_wizard_action" model="ir.actions.act_window">
+        <field name="name">Delivery Details</field>
+        <field name="res_model">courier.delivered</field>
+        <field name="view_mode">form</field>
+    </record>
+
+   
+</odoo>

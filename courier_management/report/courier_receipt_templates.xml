@@ -1,0 +1,78 @@
+<odoo>
+    <template id="report_courier_booking_document">
+      <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+        <t t-call="web.external_layout">
+          <div class="page">
+            <h2 style="text-align:center;">Courier Receipt</h2>
+            <table style="width:100%; margin-bottom:20px;">
+              <tr>
+                <td>
+                  <strong>Receipt No.:</strong> <t t-out="doc.courier_id"/><br/>
+                  <strong>Routing:</strong> <t t-out="doc.route_id.name or ''"/>
+                </td>
+                <td>
+                  <strong>Order No.:</strong> <t t-out="doc.id"/><br/>
+                  <strong>Order Date:</strong> <t t-out="doc.create_date.strftime('%Y-%m-%d') if doc.create_date else ''"/>
+                </td>
+              </tr>
+            </table>
+  
+            <table style="width:100%; border: 1px solid #000; margin-bottom:20px;">
+              <tr>
+                <td>
+                  <strong>Shipping To</strong><br/>
+                  <t t-out="doc.receiver_id.name"/><br/>
+                  <t t-out="doc.receiver_street"/><br/>
+                  <t t-out="doc.receiver_city"/> <t t-out="doc.receiver_zip"/><br/>
+                  <t t-out="doc.receiver_state_id.name"/>, <t t-out="doc.receiver_country_id.name"/><br/>
+                </td>
+                <td>
+                  <strong>Shipping From</strong><br/>
+                  <t t-out="doc.sender_id.name"/><br/>
+                  <t t-out="doc.street"/><br/>
+                  <t t-out="doc.city"/> <t t-out="doc.zip"/><br/>
+                  <t t-out="doc.state_id.name"/>, <t t-out="doc.country_id.name"/><br/>
+                </td>
+              </tr>
+            </table>
+            <h2 style="text-align:left;">Item Details</h2>
+            <table style="width:100%; border-collapse: collapse;" border="1">
+              <thead>
+                <tr>
+                  <th>Item Name</th>
+                  <th>Weight (Kg)</th>
+                  <th>Rate per Kg (INR)</th>
+                  <th>Total (INR)</th>
+                </tr>
+              </thead>
+              <tbody>                
+                <tr>
+                  <td style="text-align:center;"><t t-out="doc.product_id.name" /></td>
+                  <td style="text-align:center;"><t t-out="doc.weight" /></td>
+                  <td style="text-align:center;">
+                    <t t-out="doc.cost" />
+                  </td>
+                  <td style="text-align:center;"><t t-out="doc.total_cost" /></td>
+                </tr>
+              </tbody>
+            </table>
+            <table style="width:100%; margin-top:20px;">
+                <tr>
+                  <td style="text-align:right;">
+                    <strong>Sub Total:</strong> <t t-out="doc.total_cost"/><br/>
+                    <strong>Service Tax 10%:</strong> <t t-out="(doc.total_cost * 0.10)"/><br/>
+                    <strong>Total Amount:</strong> <t t-out="doc.total_cost * 1.10"/>
+                  </td>
+                </tr>
+              </table>
+            <p>We accept all Debit and Credit Cards.</p>
+            <p><strong>Terms and Conditions:</strong> Please read the terms and conditions of use carefully before accessing, using or obtaining any materials, information, products or services.</p>
+            <p style="text-align:center;">Thank You</p>
+          </div>
+        </t>
+        </t>
+      </t>
+    </template>
+  </odoo>
+  

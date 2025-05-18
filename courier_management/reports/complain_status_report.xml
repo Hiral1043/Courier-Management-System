@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_complain_status_report_pivot" model="ir.ui.view">
+        <field name="name">complain.status.report.pivot</field>
+        <field name="model">complain.status.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Complaint Report Pivot">
+                <!-- <field name="complaint_category" type="row"/> -->
+                <field name="status" type="row"/>
+                <field name="count" type="measure"/>
+                <field name="resolution_time" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    
+    <record id="view_complain_status_report_graph" model="ir.ui.view">
+        <field name="name">complain.status.report.graph</field>
+        <field name="model">complain.status.report</field>
+        <field name="arch" type="xml">
+            <graph string="Complaint Report Graph" type="bar">
+                <field name="status" type="row"  />
+                <field name="count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    
+    <record id="action_customer_complaint_status_report" model="ir.actions.act_window">
+        <field name="name">Complaints Status</field>
+        <field name="res_model">complain.status.report</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="view_ids" 
+            eval="[(5,0,0),
+                (0,0,{'view_mode':'graph','view_id': ref('view_complain_status_report_graph')}),
+                (0,0,{'view_mode':'pivot','view_id': ref('view_complain_status_report_pivot')})]"/>
+    </record>
+    
+</odoo>

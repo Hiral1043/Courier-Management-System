@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_courier" name="Courier Management" 
+    sequence="1"/>
+
+    <menuitem id="booking_menu" 
+                name="Booking" 
+                parent="menu_courier" 
+                action='action_courier_tracking'
+                groups="courier_group_admin,courier_group_employee,courier_group_customer"
+                sequence="1"/>
+    
+    <menuitem id="menu_courier_booking" 
+              name="Courier Booking" 
+              parent="booking_menu"
+              groups="courier_group_admin,courier_group_employee"
+              action="action_courier_booking" 
+              sequence="1"/>
+        
+    <menuitem id="menu_delivery_agent"
+              name="Delivery Agents" 
+              parent="booking_menu"
+              groups="courier_group_admin"
+              action="action_delivery_agent"/>
+              
+    <menuitem id="menu_customer_complaint"
+              name="Complaints" 
+              parent="booking_menu" 
+              groups= 'courier_group_customer,courier_group_admin,courier_group_employee'
+              action="action_customer_complaint"/>
+
+    <!-- Tracking Submenu -->
+    <menuitem id="track_menu" 
+            name="Tracking" 
+            parent="menu_courier" 
+            groups="courier_group_admin,courier_group_employee,courier_group_customer,courier_group_delivery_agent"
+            sequence="2"/>
+              
+        <menuitem id="menu_courier_tracking" 
+            name="Courier Tracking" 
+            parent="track_menu" 
+            action="action_courier_tracking"/>
+
+
+    <menuitem id="config_menu" 
+              name="Configuration" 
+              parent="menu_courier"
+              groups="courier_group_admin,courier_group_employee"
+              sequence="4"/>
+        <menuitem id="shipping_menu" 
+                  name="Shipping" 
+                  parent="config_menu" 
+                  groups="courier_group_admin"
+
+                  sequence="1"/>
+
+        <menuitem id="menu_shipping_mode" 
+                name="Shipping Modes" 
+                parent="shipping_menu"
+                groups="courier_group_admin"
+                action="action_shipping_mode"
+                sequence="2"/>
+ 
+    <menuitem id="menu_shipping_route" 
+              name="Shipping Routes" 
+              parent="shipping_menu" 
+              groups="courier_group_admin"
+              action="action_shipping_route"/>
+    <menuitem
+              id="complain_menu"
+              name="Customer Complains"
+              parent='config_menu'
+              groups="courier_group_admin,courier_group_employee"
+              sequence="3"/>
+
+    <menuitem id="menu_customer_complaint_config"
+              name="Show Complaints" 
+              parent="complain_menu" 
+              action="action_customer_complaint_config"/>
+      
+
+    <menuitem
+              id="report_menu"
+              name="Reporting"
+              parent='menu_courier'
+              groups="courier_group_admin"
+              sequence="3"/>
+        <menuitem
+            id="reprots_complain_menu"
+            name="Complains Reports"
+            groups="courier_group_admin"
+            parent="report_menu"
+            sequence="1"/>
+
+            <menuitem
+                id="agemt_wise_menu"
+                name="Agent-wise resolution performance"
+                action="action_agent_wise_report"
+                groups="courier_group_admin"
+                parent="reprots_complain_menu"
+                sequence="11"/>
+
+                <menuitem id="menu_complaint_status_report" 
+                name="Complaint Status"
+                groups="courier_group_admin"
+                parent="reprots_complain_menu" action="action_customer_complaint_status_report" 
+                sequence="10" />
+          
+            <menuitem
+                id="model_type_customer_complain_report"
+                name="Type-wise analysis"
+                action="action_customer_complaint_type_wise_report"
+                groups="courier_group_admin"
+                parent="reprots_complain_menu"
+                sequence="33"/>
+        <menuitem 
+            id="menu_mode_wise_delivery_report"
+            name="Mode-wise Delivery Stats"
+            action="action_customer_complaint_report"
+            groups="courier_group_admin"
+            parent="report_menu"
+            sequence="44"/>
+            <menuitem 
+            id="menu_route_performance_report"
+            name="Route performance Report"
+            action="action_route_performance_report"
+            groups="courier_group_admin"
+            parent="report_menu"
+            sequence="45"/>
+
+
+</odoo>

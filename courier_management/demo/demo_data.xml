@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="shipping_mode_data1" model="shipping.mode">
+            <field name="name">Air</field>
+            <field name="speed_rank">high</field>
+
+    </record>
+    
+    <record id="shipping_mode_data2" model="shipping.mode">
+        <field name="name">Road</field>
+        <field name="speed_rank">medium</field>
+         
+    </record>
+    <record id="shipping_mode_data3" model="shipping.mode">
+        <field name="name">Ship</field>
+        <field name="speed_rank">low</field>
+         
+    </record>
+
+    <record id="shipping_route_data1" model='shipping.route'>
+        <field name="source_city">Ahmedabad</field>
+        <field name="destination_city">Rajkot</field>
+        <field name="distance_km">400</field>    
+
+    </record>
+    <record id="shipping_route_data2" model='shipping.route'>
+        <field name="source_city">Ahmedabad</field>
+        <field name="destination_city">Surat</field>
+        <field name="distance_km">500</field>         
+    </record>
+
+    <record id="route_line_data1" model='route.line'>
+        <field name="route_id" ref= "shipping_route_data1"/>
+        <field name="mode_id" ref="shipping_mode_data1"/>
+        <field name="cost_per_kg">100</field>  
+        <field name="estimated_days">1</field>         
+        <field name="is_active">True</field>         
+    </record>
+
+    <record id="route_line_data2" model='route.line'>
+        <field name="route_id" ref= "shipping_route_data1"/>
+        <field name="mode_id" ref="shipping_mode_data2"/>
+        <field name="cost_per_kg">80</field>  
+        <field name="estimated_days">5</field>         
+        <field name="is_active">True</field>         
+    </record>
+    <record id="route_line_data3" model='route.line'>
+        <field name="route_id" ref= "shipping_route_data1"/>
+        <field name="mode_id" ref="shipping_mode_data3"/>
+        <field name="cost_per_kg">50</field>  
+        <field name="estimated_days">10</field>         
+        <field name="is_active">True</field>         
+    </record>
+
+    <record id="route_line_data4" model='route.line'>
+        <field name="route_id" ref= "shipping_route_data2"/>
+        <field name="mode_id" ref="shipping_mode_data1"/>
+        <field name="cost_per_kg">100</field>  
+        <field name="estimated_days">1</field>         
+        <field name="is_active">True</field>         
+    </record>
+
+    <record id="route_line_data5" model='route.line'>
+        <field name="route_id" ref= "shipping_route_data2"/>
+        <field name="mode_id" ref="shipping_mode_data2"/>
+        <field name="cost_per_kg">90</field>  
+        <field name="estimated_days">5</field>         
+        <field name="is_active">True</field>         
+    </record>
+    <record id="route_line_data6" model='route.line'>
+        <field name="route_id" ref= "shipping_route_data2"/>
+        <field name="mode_id" ref="shipping_mode_data3"/>
+        <field name="cost_per_kg">50</field>  
+        <field name="estimated_days">10</field>         
+        <field name="is_active">True</field>         
+    </record>
+
+</odoo>

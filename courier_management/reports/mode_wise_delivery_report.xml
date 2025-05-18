@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_courier_mode_status_pivot" model="ir.ui.view">
+        <field name="name">courier.mode.status.report.pivot</field>
+        <field name="model">courier.mode.status.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Mode-wise Delivery Report">
+                <field name="selected_mode_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="booking_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    
+    <record id="view_courier_mode_status_graph" model="ir.ui.view">
+        <field name="name">courier.mode.status.report.graph</field>
+        <field name="model">courier.mode.status.report</field>
+        <field name="arch" type="xml">
+            <graph string="Mode-wise Delivery Chart" type="bar">
+                <field name="selected_mode_id" type="row"/>
+                <field name="booking_count" type="measure"/>
+                <field name="state" type="col"/>
+            </graph>
+        </field>
+    </record>
+    
+    
+ 
+
+    <!-- action -->
+    <record id="action_customer_complaint_report" model="ir.actions.act_window">
+        <field name="name">Mode-wise Delivery Report</field>
+        <field name="res_model">courier.mode.status.report</field>
+        <field name="view_mode">pivot,graph</field>
+        
+    </record>
+
+    
+</odoo>

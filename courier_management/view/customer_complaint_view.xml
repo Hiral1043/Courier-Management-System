@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="view_customer_complaint_list" model="ir.ui.view">
+            <field name="name">customer.complaint.list</field>
+            <field name="model">customer.complaint</field>
+            <field name="arch" type="xml">
+                <list string="Customer Complaints">
+                    <field name="ticket_number"/>
+                    <field name="booking_id"/>
+                    <field name="complaint_category"/>
+                   <field name="description" />
+                  
+                </list>
+            </field>
+        </record>
+
+        <record id="view_customer_complaint_form" model="ir.ui.view">
+            <field name="name">customer.complaint.form</field>
+            <field name="model">customer.complaint</field>
+            <field name="arch" type="xml">
+                <form string="Customer Complaint">
+                    <sheet>
+                        <group>
+                            <field name="ticket_number" readonly="1"/>
+                            <field name="booking_id" />
+                            <field name="complaint_category"/>
+                            <field name="description" />
+                            <field name="attachment" filename="ticket_number"/>
+
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_customer_complaint" model="ir.actions.act_window">
+            <field name="name">Customer Complaints</field>
+            <field name="res_model">customer.complaint</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name='view_ids' 
+                eval="[(5,0,0),
+                        (0,0,{'view_mode':'form','view_id': ref('view_customer_complaint_form')})]"/>
+        </record>
+
+
+    <!-- Config menu view-->
+
+    <record id="view_customer_complaint_config_list" model="ir.ui.view">
+        <field name="name">customer.complaint.list</field>
+        <field name="model">customer.complaint</field>
+        <field name="arch" type="xml">
+            <list string="Customer Complaints">
+                <field name="ticket_number"/>
+                <field name="booking_id"/>
+                <field name="complaint_category"/>
+                <field name="status"/>
+                <field name="priority" />
+                <field name="resolution_deadline" />
+                <field name="description" />
+                   
+            </list>
+        </field>
+    </record>
+
+    <record id="view_customer_complaint_config_form" model="ir.ui.view">
+        <field name="name">customer.complaint.form</field>
+        <field name="model">customer.complaint</field>
+        <field name="arch" type="xml">
+            <form string="Customer Complaint">
+                <header>
+                    <button string="Resolved" name="action_resolved" type="object" class="oe_highlight"/>
+                    <button string="close" name="action_close" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" invisible="status != 'resolved'" title="Resolved" bg_color="text-bg-success"/>
+                    <widget name="web_ribbon" invisible="status != 'closed'" title="Closed" bg_color="text-bg-info"/>
+                    
+                    <group>
+                        <group name="name" string="string">
+                            
+                            <field name="ticket_number" readonly="1"/>
+                            <field name="booking_id" />
+                            <field name="complaint_category"/>
+                            <field name="status"/>
+                            <field name="priority" />
+                        </group>
+                        <group> 
+                            <field name="create_date" />
+                            <field name="resolution_deadline" />
+                            <field name="resolution_time" />
+                            <field name="assigned_to"/>
+                            <field name="attachment" filename="ticket_number"/>                            
+                        </group>  
+                    </group>
+                    <group string="Details">
+                        <field name="description"/>
+                        <field name="internal_notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+
+    <record id="action_customer_complaint_config" model="ir.actions.act_window">
+        <field name="name">Customer Complaints</field>
+        <field name="res_model">customer.complaint</field>
+        <field name="target">current</field>
+        <field name='view_ids' 
+            eval="[(5,0,0),
+                (0,0,{'view_mode':'list','view_id': ref('view_customer_complaint_config_list')}),
+                (0,0,{'view_mode':'form','view_id': ref('view_customer_complaint_config_form')})]"/>
+    </record>
+</odoo>

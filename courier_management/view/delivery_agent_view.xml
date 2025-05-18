@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_delivery_agent_list" model="ir.ui.view">
+            <field name="name">delivery.agent.list</field>
+            <field name="model">delivery.agent</field>
+            <field name="arch" type="xml">
+                <list string="Delivery Agents">
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="is_available"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_delivery_agent_form" model="ir.ui.view">
+            <field name="name">delivery.agent.form</field>
+            <field name="model">delivery.agent</field>
+            <field name="arch" type="xml">
+                <form string="Delivery Agent">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="user_id"/>
+                            <field name="is_available"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_delivery_agent" model="ir.actions.act_window">
+            <field name="name">Delivery Agents</field>
+            <field name="res_model">delivery.agent</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+       
+        <record id="assign_delivery_agent_view_wizard_form" model="ir.ui.view">
+            <field name="name">assign.delivery.agent.view.wizard.form</field>
+            <field name="model">assign.delivery.agent</field>
+            <field name="arch" type="xml">
+                <form >
+                    <sheet>
+                        <group>
+                            <group >
+                                <field name="name" options="{'no_create': True, 'no_create_edit':True}"/> 
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="action_assign" string="Assign" type="object" class="oe_highlight"/>
+                            
+                        </footer>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    
+    
+        <record id="assign_delivery_person_wizard_action" model="ir.actions.act_window">
+            <field name="name">Available Rooms</field>
+            <field name="res_model">assign.delivery.agent</field>
+            <field name="view_mode">form</field>
+        </record>
+
+</odoo>

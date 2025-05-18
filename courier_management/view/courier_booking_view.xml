@@ -1,0 +1,175 @@
+<odoo>
+    <record id="view_courier_booking_form_view" model="ir.ui.view">
+        <field name="name">courier.booking.form.view</field>
+        <field name="model">courier.booking</field>
+        <field name="arch" type="xml">
+            <form string="Courier Booking" >
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_invoice" type="object" string="Create Invoice" invisible="state != 'confirmed'"/>
+                    <button name="action_assign_delivery_agent" type="object" string="Assign Delivery agent" class="oe_highlight" invisible="state != 'invoiced'"/>
+                </header>    
+                <sheet>
+                    <widget name="web_ribbon" invisible="state != 'invoiced'" title="Invoiced" bg_color="text-bg-success"/>
+                    <widget name="web_ribbon" invisible="state != 'confirmed'" title="Confirmed" bg_color="text-bg-info"/>
+                    <widget name="web_ribbon" invisible="state != 'picked'" title="picked up" bg_color="text-bg-info"/>
+                    <widget name="web_ribbon" invisible="state != 'in_transit'" title="In-transit" bg_color="text-bg-info"/>
+                    <widget name="web_ribbon" invisible="state != 'out_for_delivery'" title="out_for_delivery" bg_color="text-bg-info"/>
+                    <widget name="web_ribbon" invisible="state != 'delivered'" title="Delivered" bg_color="text-bg-success"/>
+                    <widget name="web_ribbon" invisible="state != 'returned'" title="Returned" bg_color="text-bg-danger"/>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" string="Invoice"
+                                icon="fa-money"
+                                name="action_invoice" invisible="state != 'invoiced'">
+                                <div class="o_stat_info">
+                                <field name="invoice_id" class="o_stat_value" widget="statinfo"/>
+                                </div>
+                            </button> 
+                            <button class="oe_stat_button" string="Complains" type="object" 
+                                icon="fa-money"
+                                name="action_complain" invisible="count_complain &lt; 1">
+                                <div class="o_stat_info">
+                                   <field name="count_complain" string="Complains" class="o_stat_value" widget="statinfo"/>
+                                   <!-- <field name="count_complain" /> -->
+                                </div>
+                            </button> 
+                        </div>    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="courier_id" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group name='sender_details' string="Sender's Details">
+                            <field name="sender_id" readonly="state != 'draft'" />
+                            <span class="o_form_label o_td_label o_address_type" name="address_name">
+                                <span>Pickup Address</span>
+                            </span>
+                            <div class="o_address_format">
+                                <field name="street" placeholder="Street..." class="o_address_street" readonly="state != 'draft'"/>
+                                <field name="street2" placeholder="Street 2..." class="o_address_street" readonly="state != 'draft'"/>
+                                <field name="city" placeholder="City" class="o_address_city" readonly="state != 'draft'"/>
+                                <field name="state_id" class="o_address_state" placeholder="State" readonly="state != 'draft'"/>
+                                <field name="zip" placeholder="ZIP" class="o_address_zip" readonly="state != 'draft'"/>
+                                <div name="partner_address_country" class="d-flex justify-content-between">
+                                    <field name="country_id" placeholder="Country" class="o_address_country" readonly="state != 'draft'" />
+                                </div>
+                            </div>
+                            <field name="sender_phone" readonly="state != 'draft'"/>
+                            <!-- <field name="pickup_time" readonly="True" invisible="state in 'draft,confirmed'"/> -->
+                        </group>
+                        <group name='receriver' string="Receriver's Details">
+                            <field name="receiver_id" invisible = "state != 'delivered'"/>
+                            <span class="o_form_label o_td_label o_address_type" name="address_name">
+                                <span>Delivery Address</span>
+                            </span>
+                            <div class="o_address_format">
+                                <field name="receiver_street" placeholder="Street..." class="o_address_street" readonly="state != 'draft'"/>
+                                <field name="receiver_street2" placeholder="Street 2..." class="o_address_street" readonly="state != 'draft'"/>
+                                <field name="receiver_city" placeholder="City" class="o_address_city" readonly="state != 'draft'"/>
+                                <field name="receiver_state_id" class="o_address_state" placeholder="State" readonly="state != 'draft'"/>
+                                <field name="receiver_zip" placeholder="ZIP" class="o_address_zip" readonly="state != 'draft'"/>
+                                <div name="partner_address_country" class="d-flex justify-content-between">
+                                    <field name="receiver_country_id" placeholder="Country" class="o_address_country"  readonly="state != 'draft'"/>
+                                </div>
+                            </div>
+                            <field name="receiver_phone" readonly="state != 'draft'"/>
+
+                        </group>
+                    </group>
+                    <group>
+                        <group name='courier_details' string="Courier Details">
+                            <field name="product_id" readonly="state != 'draft'"/>
+                            <field name="weight" readonly="state != 'draft'"/>
+                            <field name="dimensions" readonly="state != 'draft'"/>
+                            <field name="agent_id" invisible="state in ('draft', 'confirmed')" readonly="state != 'draft'"/>
+                            <field name="courier_tracking_id" invisible="state in ('draft', 'confirmed')" readonly="state != 'draft'" />
+                        <button name="action_show_suggestion" type="object" string="Show Suggestion" class="oe_highlight" invisible="state not in 'draft'"/>
+
+
+                        </group>
+                        <group name='order_info' string='Order Information'>
+                            <field name="delivery_priority" readonly="state != 'draft'"/>
+                            <field name="route_id" />
+                            <field name="selected_mode_id" readonly="True"/>
+                            <field name="cost" widget="monetary"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="delivery_estimate"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="suggestion" string="Suggestion" >
+                            <field name="suggested_modes_ids" readonly="True" options="{'no_open': True, 'no_create': True}">
+                                <list editable="bottom">
+                                    <field name="route_line_id" />
+                                    <field name="estimated_days"/>
+                                    <field name="estimated_cost"/>
+                                    <field name="total_cost" />
+                                    <button name="action_selected_route" type="object" string="Choose Route" class="oe_highlight" invisible="parent.state != 'draft'"/>
+                                </list>    
+                            </field>
+                        </page>
+                        <page name="courier_tracking" string="Courier Tracking" readonly="True" invisible="state in 'draft,confirmed'">
+                           <group>
+                               <field name="pickup_time" readonly="True"/>
+                               <field name="in_transit_time" readonly="True"/>
+                               <field name="out_for_delivery_time" readonly="True"/>
+                               <field name="delivered_time" readonly="True" />
+                               <field name="delivery_proof" widget = "signature" readonly="True"/>
+                           </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_courier_booking_list" model="ir.ui.view">
+        <field name="name">courier.booking.list</field>
+        <field name="model">courier.booking</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="courier_id"/>
+                <field name="sender_id"/>
+                <field name="delivery_priority"/>
+                <field name="state" />
+                <field name="delivery_estimate"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_courier_booking_kanban" model="ir.ui.view">
+        <field name="name">courier.booking.kanban</field>
+        <field name="model">courier.booking</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column" default_group_by="state">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="o_kanban_record_title mb8">
+                                <field name="courier_id"/>
+                            </div>
+                            <strong>
+                                <div> <field name="product_id"/></div>
+                                <div>Sender: <field name="sender_id"/></div>
+                                <div>Mode: <field name="selected_mode_id"/></div>
+                                <div>Cost: <field name="cost"/></div>
+                                <div>Estimated Days : <field name="delivery_estimate"/> days</div>
+                            </strong>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    
+
+    <record id="action_courier_booking" model="ir.actions.act_window">
+        <field name="name">Courier Bookings</field>
+        <field name="res_model">courier.booking</field>
+        <field name="view_mode">kanban,list,form</field>
+        
+    </record>
+
+</odoo>

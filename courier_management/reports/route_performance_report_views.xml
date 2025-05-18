@@ -1,0 +1,35 @@
+<odoo>
+    <record id="view_route_performance_report_pivot" model="ir.ui.view">
+        <field name="name">route.performance.report.pivot</field>
+        <field name="model">route.performance.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Route Performance Pivot">
+                <field name="route_id" type="row"/>
+                <field name="total_bookings" type="measure"/>
+              
+            </pivot>
+        </field>    
+    </record>
+
+    <record id="view_route_performance_report_graph" model="ir.ui.view">
+        <field name="name">route.performance.report.graph</field>
+        <field name="model">route.performance.report</field>
+        <field name="arch" type="xml">
+            <graph string="Route Performance Graph" type="bar">
+                <field name="route_id" type="row"/>
+                <field name="total_bookings" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_route_performance_report" model="ir.actions.act_window">
+        <field name="name">Route Performance Report</field>
+        <field name="res_model">route.performance.report</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="view_ids" 
+            eval="[(5,0,0),
+                (0,0,{'view_mode':'graph','view_id': ref('view_route_performance_report_graph')}),
+                (0,0,{'view_mode':'pivot','view_id': ref('view_route_performance_report_pivot')})]"/>
+    </record>
+
+</odoo>

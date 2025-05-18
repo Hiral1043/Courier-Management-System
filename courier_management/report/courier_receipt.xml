@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <record id="action_report_courier_booking" model="ir.actions.report">
+            <field name="name">Courier Receipt</field>
+            <field name="model">courier.booking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">courier_management.report_courier_booking_document</field>
+            <field name="report_file">courier_management.report_courier_booking_document</field>
+            <field name="print_report_name">'Courier Receipt'</field>
+            <field name="binding_model_id" ref="courier_management.model_courier_booking"/>
+        </record>
+    
+</odoo>
